@@ -1,0 +1,14 @@
+additionalArguments:
+  - "--accesslog=true"
+  - "--accesslog.format=json"
+  - "--log.level=DEBUG"
+
+deployment:
+  replicas: 1
+
+service:
+  spec:
+    loadBalancerIP: 40.70.28.175
+  annotations:
+    "service.beta.kubernetes.io/azure-load-balancer-resource-group": "AKS"
+    "service.beta.kubernetes.io/azure-load-balancer-tcp-idle-timeout": "20"
