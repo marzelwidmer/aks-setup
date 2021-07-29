@@ -8,7 +8,7 @@ deployment:
 
 service:
   spec:
-    loadBalancerIP: 40.70.28.175
+    loadBalancerIP: 20.97.234.8
   annotations:
     "service.beta.kubernetes.io/azure-load-balancer-resource-group": "AKS"
     "service.beta.kubernetes.io/azure-load-balancer-tcp-idle-timeout": "20"
