@@ -1,4 +1,15 @@
 # Manage AKS Cluster
+
+## PreCondition
+```bash
+brew install azure-cli
+brew install kns
+brew install kubectx 
+brew install shyiko/kubesec/kubesec
+brew install sops
+brew install gnupg
+```
+
 ``` 
 --------------------------------------------
 :: Create or manage your AKS cluster
