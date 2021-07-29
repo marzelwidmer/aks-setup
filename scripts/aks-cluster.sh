@@ -18,7 +18,11 @@ options=(
     "Show Nodes"
     "Create DEMO Namespace"
     "Delete DEMO Namespace"
-    "Helm Install Infrastructure Resources in DEMO Namespace"
+    "Helm Repo Add Infrastructure Resources"
+    "Helm Install MongoDB"
+    "Helm Install Redis"
+    "Helm Install Prometheus"
+    "Helm Install Traefik"
     "Install Secrets"
     "Install RBAC"
     "Quit"
@@ -227,7 +231,7 @@ do
             break
             ;;
 
-         "Helm Install Infrastructure Resources in DEMO Namespace")
+         "Helm Repo Add Infrastructure Resources")
             kubectl config set-context --current --namespace demo
 
             echo ""
@@ -240,6 +244,21 @@ do
             echo "-------------------------------------------"
             helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
+            echo ""
+            echo ": helm repo add traefik repo :"
+            echo "-------------------------------------------"
+            helm repo add traefik https://helm.traefik.io/traefik
+
+            echo ""
+            echo ": helm update repo :"
+            echo "-------------------------------------------"
+            helm repo update
+
+            break
+            ;;
+
+         "Helm Install MongoDB")
+            kubectl config set-context --current --namespace demo
             echo ""
             echo ": helm install mongodb :"
             echo "------------------------"
@@ -259,7 +278,44 @@ do
             break
             ;;
 
-        "Quit")
+
+         "Helm Install Redis")
+            kubectl config set-context --current --namespace demo
+
+            echo ""
+            echo ": helm install redis :"
+            echo "----------------------"
+            helm install redis bitnami/redis
+
+
+            echo ""
+            echo ": helm install prometheus :"
+            echo "---------------------------"
+            helm install prometheus --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false  prometheus-community/kube-prometheus-stack
+
+            break
+            ;;
+
+
+         "Helm Install Prometheus")
+            kubectl config set-context --current --namespace demo
+
+            echo ""
+            echo ": helm install prometheus :"
+            echo "---------------------------"
+            helm install prometheus --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false  prometheus-community/kube-prometheus-stack
+
+            break
+            ;;
+
+         "Helm Install Traefik")
+            kubectl config set-context --current --namespace demo
+
+            echo ""
+            echo ": helm install traefik :"
+            echo "---------------------------"
+            helm install traefik traefik/traefik -f traefik/helm/traefik-values.yaml
+
             break
             ;;
 
@@ -282,6 +338,11 @@ do
 
             break
             ;;
+
+        "Quit")
+            break
+            ;;
+
         *) echo "invalid option $REPLY";;
     esac
 done

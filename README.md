@@ -38,15 +38,9 @@ Please aware the number can be different.
 ```
 
 
-
-
 # Traefik
 https://ichi.pro/de/traefik-ingress-im-azure-kubernetes-dienst-275193782592692
 
-```bash
-helm repo add traefik https://helm.traefik.io/traefik
-helm repo update
-```
 
 ## Update configuration with PublicIP
 Update `service.spec.loadBalancerIP` in `traefik-values.yaml` file 
@@ -54,11 +48,6 @@ Update `service.spec.loadBalancerIP` in `traefik-values.yaml` file
 ./scripts/aks-cluster.sh
 vi traefik/helm/traefik-values.yaml
 ```
-## Install Traefik 
-```bash
-helm install traefik traefik/traefik -f traefik/helm/traefik-values.yaml
-```
-
 
 ## Check Installation
 ```bash
