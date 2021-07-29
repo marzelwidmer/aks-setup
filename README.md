@@ -25,7 +25,10 @@ brew install gnupg
  9) Show Nodes
 10) Create DEMO Namespace
 11) Delete DEMO Namespace
-12) Quit
+12) Helm Install Infrastructure Resources in DEMO Namespace
+13) Install Secrets
+14) Install RBAC
+15) Quit
 Please enter your choice:
 ```
 
@@ -35,43 +38,6 @@ Please aware the number can be different.
 ```
 
 
-
-
-
-
-
-
-# Install Infrastructure Resources
-```bash
-helm repo add bitnami https://charts.bitnami.com/bitnami
-```
-## MongoDB
-```bash
-helm install mongodb --set architecture=replicaset bitnami/mongodb
-```
-## Redis
-```bash
-helm install redis bitnami/redis
-```
-## Prometheus
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm install prometheus --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false  prometheus-community/kube-prometheus-stack
-```
-
-## Install Secrets
-```bash
-kubesec decrypt secret/secret.enc.yaml | kubectl apply -n demo -f -
-```
-### Check Secrets
-```bash
-k get secrets -l 'secret in (kboot-infra)' -n demo -ojson | jq '.items[].data'
-```
-
-## Install RBAC for ConfigMaps/Secrets
-```bash
-k apply -f rbac/roles.yaml
-```
 
 
 # Traefik
