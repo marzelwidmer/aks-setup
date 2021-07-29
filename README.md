@@ -25,10 +25,14 @@ brew install gnupg
  9) Show Nodes
 10) Create DEMO Namespace
 11) Delete DEMO Namespace
-12) Helm Install Infrastructure Resources in DEMO Namespace
-13) Install Secrets
-14) Install RBAC
-15) Quit
+12) Helm Repo Add Infrastructure Resources
+13) Helm Install MongoDB
+14) Helm Install Redis
+15) Helm Install Prometheus
+16) Helm Install Traefik
+17) Install Secrets
+18) Install RBAC
+19) Quit
 Please enter your choice:
 ```
 
