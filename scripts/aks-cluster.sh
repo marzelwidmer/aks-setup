@@ -18,6 +18,9 @@ options=(
     "Show Nodes"
     "Create DEMO Namespace"
     "Delete DEMO Namespace"
+    "Helm Install Infrastructure Resources in DEMO Namespace"
+    "Install Secrets"
+    "Install RBAC"
     "Quit"
 )
 select opt in "${options[@]}"
@@ -56,7 +59,6 @@ do
 
             read -p "Enter Node count [2]: " NODE_COUNT
             export NODE_COUNT=${NODE_COUNT:-2}
-
 
 
             az aks create --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --node-count $NODE_COUNT --node-vm-size $NODE_SIZE --enable-addons monitoring --generate-ssh-keys
@@ -225,9 +227,59 @@ do
             break
             ;;
 
+         "Helm Install Infrastructure Resources in DEMO Namespace")
+            kubectl config set-context --current --namespace demo
 
+            echo ""
+            echo ": helm repo add bitnami repo :"
+            echo "------------------------------"
+            helm repo add bitnami https://charts.bitnami.com/bitnami
+
+            echo ""
+            echo ": helm repo add prometheus-community repo :"
+            echo "-------------------------------------------"
+            helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+            echo ""
+            echo ": helm install mongodb :"
+            echo "------------------------"
+            helm install mongodb --set architecture=replicaset bitnami/mongodb
+
+            echo ""
+            echo ": helm install redis :"
+            echo "----------------------"
+            helm install redis bitnami/redis
+
+
+            echo ""
+            echo ": helm install prometheus :"
+            echo "---------------------------"
+            helm install prometheus --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false  prometheus-community/kube-prometheus-stack
+
+            break
+            ;;
 
         "Quit")
+            break
+            ;;
+
+        "Install Secrets")
+            echo ""
+            echo ": Install secrets in DEMO Namespace :"
+            echo "-------------------------------------"
+            kubectl config set-context --current --namespace demo
+            kubesec decrypt secrets/secret.enc.yaml | kubectl apply -n demo -f -
+            kubectl get secrets -l 'secret in (kboot-infra)' -n demo -ojson | jq '.items[].data'
+
+            break
+            ;;
+
+        "Install RBAC")
+            echo ""
+            echo ": Install RBAC in DEMO Namespace :"
+            echo "----------------------------------"
+            kubectl apply -f rbac/roles.yaml
+
             break
             ;;
         *) echo "invalid option $REPLY";;
