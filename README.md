@@ -11,7 +11,6 @@ brew install gnupg
 ```
 
 ``` 
-
 --------------------------------------------
 :: Create or manage your AKS cluster
 --------------------------------------------
@@ -24,18 +23,19 @@ brew install gnupg
  7) Show Public-IP
  8) Show Container Registry
  9) Login Container Registry
-10) Update .kube/config
-11) Show Nodes
-12) Create DEMO Namespace
-13) Delete DEMO Namespace
-14) Helm Repo Add Infrastructure Resources
-15) Helm Install MongoDB
-16) Helm Install Redis
-17) Helm Install Prometheus
-18) Helm Install Traefik
-19) Install Secrets
-20) Install RBAC
-21) Quit
+10) List Container Registry
+11) Update .kube/config
+12) Show Nodes
+13) Create DEMO Namespace
+14) Delete DEMO Namespace
+15) Helm Repo Add Infrastructure Resources
+16) Helm Install MongoDB
+17) Helm Install Redis
+18) Helm Install Prometheus
+19) Helm Install Traefik
+20) Install Secrets
+21) Install RBAC
+22) Quit
 Please enter your choice:
 ```
 

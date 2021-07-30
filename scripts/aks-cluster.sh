@@ -16,6 +16,7 @@ options=(
     "Show Public-IP"
     "Show Container Registry"
     "Login Container Registry"
+    "List Container Registry"
     "Update .kube/config"
     "Show Nodes"
     "Create DEMO Namespace"
@@ -196,6 +197,23 @@ do
             echo ": Login to Container Registry $registry"
             echo ""
             az acr login --name $registry
+            break
+            ;;
+
+         "List Container Registry")
+            echo ""
+            echo ": List Container Registry :"
+            echo "---------------------------"
+
+            read -p "Enter Resource Group Name [AKS]: " AKS_RESOURCE_GROUP
+            export AKS_RESOURCE_GROUP=${AKS_RESOURCE_GROUP:-AKS}
+
+            registry=`az acr list --resource-group $AKS_RESOURCE_GROUP | jq '.[].loginServer' -r`
+            echo ""
+            echo ": List Container Registry $registry"
+            echo ""
+            az acr repository list -n $registry | jq
+
             break
             ;;
 
