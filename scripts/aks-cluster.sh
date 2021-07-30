@@ -14,6 +14,8 @@ options=(
     "Stop Cluster"
     "Show Cluster"
     "Show Public-IP"
+    "Show Container Registry"
+    "Login Container Registry"
     "Update .kube/config"
     "Show Nodes"
     "Create DEMO Namespace"
@@ -166,6 +168,34 @@ do
             export PIP_RESOURCE_GROUP=${PIP_RESOURCE_GROUP:-aks-public-ip-c3smonkey}
 
             az network public-ip show -g $AKS_RESOURCE_GROUP -n $PIP_RESOURCE_GROUP | jq .ipAddress -r
+            break
+            ;;
+
+         "Show Container Registry")
+            echo ""
+            echo ": Show Container Registry :"
+            echo "---------------------------"
+
+            read -p "Enter Resource Group Name [AKS]: " AKS_RESOURCE_GROUP
+            export AKS_RESOURCE_GROUP=${AKS_RESOURCE_GROUP:-AKS}
+
+            az acr list --resource-group $AKS_RESOURCE_GROUP | jq '.[].loginServer' -r
+            break
+            ;;
+
+         "Login Container Registry")
+            echo ""
+            echo ": Login Container Registry :"
+            echo "---------------------------"
+
+            read -p "Enter Resource Group Name [AKS]: " AKS_RESOURCE_GROUP
+            export AKS_RESOURCE_GROUP=${AKS_RESOURCE_GROUP:-AKS}
+
+            registry=`az acr list --resource-group $AKS_RESOURCE_GROUP | jq '.[].loginServer' -r`
+            echo ""
+            echo ": Login to Container Registry $registry"
+            echo ""
+            az acr login --name $registry
             break
             ;;
 
