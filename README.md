@@ -85,11 +85,27 @@ export AKS_CLUSTER_NAME=aks-cluster-c3smonkey
 export AKS_RESOURCE_GROUP=AKS
 export PIP_RESOURCE_GROUP=aks-public-ip-c3smonkey
 export CONTAINER_REGISTRY=c3smonkey
-export LOCATION=eastus2
-export NODE_SIZE=Standard_D1_V2
-export NODE_COUNT=2
+export LOCATION=westus
+export NODE_SIZE=Standard_A2_v2
+export NODE_COUNT=1
+
+az group create -l $LOCATION -n $AKS_RESOURCE_GROUP
 
 az aks create --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --node-count $NODE_COUNT --node-vm-size $NODE_SIZE --enable-addons monitoring --generate-ssh-keys
+
+
+az network public-ip create \
+                      --resource-group $AKS_RESOURCE_GROUP \
+                      --name $PIP_RESOURCE_GROUP \
+                      --sku Standard \
+                      --allocation-method static
+CLIENT_ID=$(az aks show --name $AKS_CLUSTER_NAME --resource-group $AKS_RESOURCE_GROUP | jq -r .identity.principalId)
+SUB_ID=$(az account show --query "id" --output tsv)
+az role assignment create --role "Virtual Machine Contributor" --assignee $CLIENT_ID --scope /subscriptions/$SUB_ID/resourceGroups/$AKS_RESOURCE_GROUP
+az network public-ip show -g $AKS_RESOURCE_GROUP -n $PIP_RESOURCE_GROUP | jq .ipAddress -r
+az acr create --resource-group $AKS_RESOURCE_GROUP --name $CONTAINER_REGISTRY --sku Standard
+az aks update -n $AKS_CLUSTER_NAME -g $AKS_RESOURCE_GROUP --attach-acr $CONTAINERte_REGISTRY
+az aks get-credentials --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME
 
 
 ```

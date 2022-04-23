@@ -58,11 +58,11 @@ z
             read -p "Enter Container Registry [c3smonkey]: " CONTAINER_REGISTRY
             export CONTAINER_REGISTRY=${CONTAINER_REGISTRY:-c3smonkey}
 
-            read -p "Enter Location [eastus2]: " LOCATION
-            export LOCATION=${LOCATION:-eastus2}
+            read -p "Enter Location [westus]: " LOCATION
+            export LOCATION=${LOCATION:-westus}
 
-            read -p "Enter Node size [Standard_D1_V2]: " NODE_SIZE
-            export NODE_SIZE=${NODE_SIZE:-Standard_D1_V2}
+            read -p "Enter Node size [Standard_A2_v2]: " NODE_SIZE
+            export NODE_SIZE=${NODE_SIZE:-Standard_A2_v2}
 
             read -p "Enter Node count [2]: " NODE_COUNT
             export NODE_COUNT=${NODE_COUNT:-2}
@@ -91,7 +91,7 @@ z
             az network public-ip show -g $AKS_RESOURCE_GROUP -n $PIP_RESOURCE_GROUP | jq .ipAddress -r
 
             az acr create --resource-group $AKS_RESOURCE_GROUP --name $CONTAINER_REGISTRY --sku Standard
-            az aks update -n $AKS_CLUSTER_NAME -g $AKS_RESOURCE_GROUP --attach-acr $CONTAINER_REGISTRY
+            az aks update -n $AKS_CLUSTER_NAME -g $AKS_RESOURCE_GROUP --attach-acr $CONTAINERte_REGISTRY
 
             echo "Enjoy your AKS Cluster"
             az aks get-credentials --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME
