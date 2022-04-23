@@ -51,7 +51,7 @@ do
 
             read -p "Enter Cluster Name [aks-cluster-c3smonkey]: " AKS_CLUSTER_NAME
             export AKS_CLUSTER_NAME=${AKS_CLUSTER_NAME:-aks-cluster-c3smonkey}
-
+z
             read -p "Enter Public IP Resource Name [aks-public-ip-c3smonkey]: " PIP_RESOURCE_GROUP
             export PIP_RESOURCE_GROUP=${PIP_RESOURCE_GROUP:-aks-public-ip-c3smonkey}
 
@@ -67,6 +67,8 @@ do
             read -p "Enter Node count [2]: " NODE_COUNT
             export NODE_COUNT=${NODE_COUNT:-2}
 
+
+            az group create -l $LOCATION -n $AKS_RESOURCE_GROUP
 
             az aks create --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --node-count $NODE_COUNT --node-vm-size $NODE_SIZE --enable-addons monitoring --generate-ssh-keys
             echo "AKS CLuster $AKS_CLUSTER_NAME created with $NODE_COUNT nodes"
