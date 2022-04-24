@@ -91,7 +91,7 @@ z
             az network public-ip show -g $AKS_RESOURCE_GROUP -n $PIP_RESOURCE_GROUP | jq .ipAddress -r
 
             az acr create --resource-group $AKS_RESOURCE_GROUP --name $CONTAINER_REGISTRY --sku Standard
-            az aks update -n $AKS_CLUSTER_NAME -g $AKS_RESOURCE_GROUP --attach-acr $CONTAINERte_REGISTRY
+            az aks update -n $AKS_CLUSTER_NAME -g $AKS_RESOURCE_GROUP --attach-acr $CONTAINER_REGISTRY
 
             echo "Enjoy your AKS Cluster"
             az aks get-credentials --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME
@@ -99,6 +99,7 @@ z
             echo "Update local ~/.kube/config for cluster $AKS_CLUSTER_NAME"
             echo "you can login to the Container Registry with :"
             echo "az acr login --name $CONTAINER_REGISTRY "
+
 
             break
             ;;
