@@ -85,6 +85,7 @@ z
 
             echo "Assign role for $CLIENT_ID and subscriptions $SUB_ID for $AKS_RESOURCE_GROUP"
             az role assignment create --role "Virtual Machine Contributor" --assignee $CLIENT_ID --scope /subscriptions/$SUB_ID/resourceGroups/$AKS_RESOURCE_GROUP
+            az role assignment create --role "Network Contributor" --assignee $CLIENT_ID --scope /subscriptions/$SUB_ID/resourceGroups/$AKS_RESOURCE_GROUP
 
             echo "Role assigned for subscriptions $SUB_ID"
             echo "Show public IP $PIP_RESOURCE_GROUP for cluster $AKS_RESOURCE_GROUP"

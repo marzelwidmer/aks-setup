@@ -75,8 +75,9 @@ kubectl apply -f traefik/service1.yaml
 ```
 
 ## Check :
-http <Public IP>/service1
-http <Public IP>/service2
+http c3smonkey.ch/service1
+http c3smonkey.ch/service2
+
 
 
 
